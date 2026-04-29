@@ -1,0 +1,60 @@
+# ═══════════════════════════════════════════════════
+# robots.txt — Duma Private Safaris Tanzania
+# https://www.dumaprivatesafaris.com
+# ═══════════════════════════════════════════════════
+# This file tells search engine crawlers which pages
+# to index and which to ignore.
+# ═══════════════════════════════════════════════════
+
+# ── ALLOW ALL MAJOR SEARCH ENGINES ──────────────────
+
+User-agent: Googlebot
+Allow: /
+
+User-agent: Googlebot-Image
+Allow: /images/
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: Slurp
+Allow: /
+
+User-agent: DuckDuckBot
+Allow: /
+
+User-agent: Baiduspider
+Allow: /
+
+User-agent: YandexBot
+Allow: /
+
+User-agent: facebot
+Allow: /
+
+User-agent: ia_archiver
+Allow: /
+
+# ── DEFAULT — ALL OTHER CRAWLERS ────────────────────
+User-agent: *
+Allow: /
+
+# ── BLOCK ACCESS TO NON-PUBLIC / UTILITY PATHS ──────
+# (Uncomment and expand these as your site grows)
+# Disallow: /admin/
+# Disallow: /private/
+# Disallow: /staging/
+# Disallow: /*.json$
+# Disallow: /404.html
+
+# ── CRAWL DELAY (optional — helps server load) ──────
+# Crawl-delay: 1
+
+# ── SITEMAP LOCATION ────────────────────────────────
+# Listed twice — the www and non-www versions.
+# Cloudflare will redirect one to the other,
+# but listing both ensures maximum discoverability.
+
+Sitemap: https://www.dumaprivatesafaris.com/sitemap.xml
+Sitemap: https://dumaprivatesafaris.com/sitemap.xml

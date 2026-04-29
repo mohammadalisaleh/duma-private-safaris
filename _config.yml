@@ -1,0 +1,18 @@
+# ═══════════════════════════════════════════
+# GitHub Pages Configuration — Duma Private Safaris
+# ═══════════════════════════════════════════
+
+# Tell GitHub Pages not to process files through Jekyll
+# (we're serving raw HTML — this is important)
+plugins: []
+
+# Exclude files from the built site
+exclude:
+  - README.md
+  - DEPLOYMENT-GUIDE.md
+  - schema-markup.html
+
+# ═══════════════════════════════════════════
+# NOTE: Your actual domain is set in the
+# CNAME file, not here.
+# ═══════════════════════════════════════════
