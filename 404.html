@@ -3,25 +3,35 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Page Not Found | Duma Private Safaris Tanzania</title>
-<meta name="description" content="The page you're looking for has moved or doesn't exist. Return to Duma Private Safaris to explore our luxury Tanzania safari experiences.">
-<meta name="robots" content="noindex, follow">
-<link rel="canonical" href="https://www.dumaprivatesafaris.com/">
+<title>Page Not Found — Duma Private Safaris Tanzania</title>
+<meta name="robots" content="noindex, nofollow">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;1,300&family=Jost:wght@200;300;400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
   :root {
     --gold: #B8975A;
-    --dark: #2C2218;
+    --gold-light: #d4b37a;
+    --dark: #3D3028;
     --ivory: #F5F0E8;
-    --brown: #3D3028;
+    --ivory-deep: #ede5d4;
+    --text-mid: #5a4a3e;
+    --font-display: 'Cormorant Garamond', Georgia, serif;
+    --font-body: 'Jost', system-ui, sans-serif;
   }
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body {
-    font-family: 'Jost', sans-serif;
+
+  html, body {
+    height: 100%;
+    font-family: var(--font-body);
     background: var(--dark);
     color: var(--ivory);
+    overflow: hidden;
+  }
+
+  .page {
+    position: relative;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
@@ -29,98 +39,292 @@
     justify-content: center;
     text-align: center;
     padding: 40px 24px;
-    background-image: url('https://images.unsplash.com/photo-1516426122078-c23e76319801?w=1400&q=60');
+    overflow: hidden;
+  }
+
+  /* Background image */
+  .bg {
+    position: absolute;
+    inset: 0;
+    background-image: url('https://images.pexels.com/photos/3045118/pexels-photo-3045118.jpeg?auto=compress&cs=tinysrgb&w=1600');
     background-size: cover;
     background-position: center;
-    position: relative;
+    filter: brightness(0.28);
+    z-index: 0;
   }
-  body::before {
+
+  /* Vignette */
+  .bg::after {
     content: '';
     position: absolute;
     inset: 0;
-    background: rgba(30,18,8,0.88);
+    background: radial-gradient(ellipse at center, transparent 30%, rgba(61,48,40,0.6) 100%);
   }
-  .content { position: relative; max-width: 600px; }
-  .eyebrow {
-    font-size: 0.62rem;
-    font-weight: 300;
-    letter-spacing: 0.4em;
+
+  .content {
+    position: relative;
+    z-index: 2;
+    max-width: 680px;
+    animation: fadeUp 1.2s cubic-bezier(0.16,1,0.3,1) forwards;
+    opacity: 0;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Logo */
+  .logo {
+    margin-bottom: 56px;
+  }
+  .logo a {
+    text-decoration: none;
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+  }
+  .logo-name {
+    font-family: var(--font-display);
+    font-size: 1.6rem;
+    font-weight: 400;
+    color: var(--ivory);
+    letter-spacing: 0.5px;
+  }
+  .logo-sub {
+    font-family: var(--font-body);
+    font-size: 9px;
+    letter-spacing: 5px;
     text-transform: uppercase;
     color: var(--gold);
-    margin-bottom: 24px;
+    font-weight: 500;
   }
-  h1 {
-    font-family: 'Cormorant Garamond', serif;
+
+  /* Gold rule */
+  .rule {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin: 0 auto 40px;
+    max-width: 220px;
+  }
+  .rule::before, .rule::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--gold);
+    opacity: 0.5;
+  }
+  .rule span {
+    color: var(--gold);
+    font-size: 10px;
+  }
+
+  /* 404 number */
+  .error-number {
+    font-family: var(--font-display);
     font-size: clamp(5rem, 15vw, 10rem);
     font-weight: 300;
-    color: var(--gold);
-    opacity: 0.25;
     line-height: 1;
-    margin-bottom: 16px;
+    color: var(--ivory);
+    opacity: 0.08;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+    pointer-events: none;
+    user-select: none;
   }
-  h2 {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(1.8rem, 4vw, 2.8rem);
+
+  /* Headline */
+  .headline {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 5vw, 3.4rem);
     font-weight: 300;
-    font-style: italic;
+    line-height: 1.2;
     color: var(--ivory);
     margin-bottom: 20px;
   }
-  p {
-    font-size: 0.88rem;
+  .headline em {
+    font-style: italic;
+    color: var(--gold-light);
+  }
+
+  /* Subtext */
+  .subtext {
+    font-family: var(--font-display);
+    font-size: 1.05rem;
+    font-style: italic;
     font-weight: 300;
-    color: rgba(245,240,232,0.6);
-    line-height: 1.8;
-    margin-bottom: 40px;
+    color: rgba(245,240,232,0.65);
+    line-height: 1.7;
+    margin-bottom: 48px;
+    max-width: 480px;
+    margin-left: auto;
+    margin-right: auto;
   }
-  .btn {
-    display: inline-block;
-    background: var(--gold);
-    color: var(--ivory);
-    padding: 16px 44px;
-    font-size: 0.68rem;
-    font-weight: 400;
-    letter-spacing: 0.3em;
-    text-transform: uppercase;
-    text-decoration: none;
-    transition: background 0.3s ease;
-    margin: 6px;
-  }
-  .btn:hover { background: #9a7d48; }
-  .btn-ghost {
-    background: transparent;
-    border: 1px solid rgba(184,151,90,0.4);
-    color: var(--gold);
-  }
-  .btn-ghost:hover { background: rgba(184,151,90,0.1); }
-  .divider {
+
+  /* Actions */
+  .actions {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 12px;
-    margin: 32px 0;
-    opacity: 0.3;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-bottom: 56px;
   }
-  .divider::before, .divider::after {
-    content: '';
-    width: 60px; height: 1px;
+
+  .btn-primary {
+    display: inline-block;
     background: var(--gold);
+    color: var(--dark);
+    font-family: var(--font-body);
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    padding: 15px 32px;
+    text-decoration: none;
+    transition: background 0.3s, color 0.3s;
+    border: 1px solid var(--gold);
   }
-  .diamond { width: 5px; height: 5px; background: var(--gold); transform: rotate(45deg); }
+  .btn-primary:hover {
+    background: var(--gold-light);
+    border-color: var(--gold-light);
+  }
+
+  .btn-ghost {
+    display: inline-block;
+    background: transparent;
+    color: var(--ivory);
+    font-family: var(--font-body);
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    padding: 14px 30px;
+    text-decoration: none;
+    border: 1px solid rgba(245,240,232,0.35);
+    transition: all 0.3s;
+  }
+  .btn-ghost:hover {
+    background: rgba(245,240,232,0.1);
+    border-color: rgba(245,240,232,0.6);
+  }
+
+  /* Quick links */
+  .quick-links {
+    border-top: 1px solid rgba(245,240,232,0.1);
+    padding-top: 32px;
+  }
+  .quick-links p {
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-family: var(--font-body);
+    font-weight: 500;
+    margin-bottom: 20px;
+  }
+  .quick-links-list {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .quick-links-list a {
+    font-family: var(--font-display);
+    font-size: 0.95rem;
+    font-style: italic;
+    color: rgba(245,240,232,0.55);
+    text-decoration: none;
+    transition: color 0.2s;
+    padding: 4px 12px;
+  }
+  .quick-links-list a:hover { color: var(--gold-light); }
+  .quick-links-list .sep {
+    color: rgba(184,151,90,0.3);
+    font-size: 0.7rem;
+  }
+
+  /* Contact line */
+  .contact-line {
+    margin-top: 40px;
+    font-size: 11px;
+    letter-spacing: 1px;
+    color: rgba(245,240,232,0.3);
+    font-family: var(--font-body);
+  }
+  .contact-line a {
+    color: rgba(245,240,232,0.45);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .contact-line a:hover { color: var(--gold); }
+
+  @media (max-width: 480px) {
+    .actions { flex-direction: column; }
+    .btn-primary, .btn-ghost { width: 100%; text-align: center; }
+  }
 </style>
 </head>
 <body>
+
+<div class="page">
+  <div class="bg"></div>
+  <div class="error-number">404</div>
+
   <div class="content">
-    <div class="eyebrow">Duma Private Safaris · Tanzania</div>
-    <h1>404</h1>
-    <h2>Lost in the Wilderness</h2>
-    <p>Even the best guides occasionally take an unexpected path. The page you're looking for doesn't exist or has moved — but the adventure is far from over.</p>
-    <div>
-      <a href="/" class="btn">Return Home</a>
-      <a href="/#contact" class="btn btn-ghost">Enquire Now</a>
+
+    <div class="logo">
+      <a href="/">
+        <span class="logo-name">Duma Private Safaris</span>
+        <span class="logo-sub">Tanzania</span>
+      </a>
     </div>
-    <div class="divider"><div class="diamond"></div></div>
-    <p style="font-size: 0.75rem;">You can also explore our <a href="/" style="color: var(--gold);">Safari Packages</a>, <a href="/" style="color: var(--gold);">Destinations</a> or <a href="/" style="color: var(--gold);">About Us</a>.</p>
+
+    <div class="rule"><span>◆</span></div>
+
+    <h1 class="headline">
+      Even the finest guides<br>
+      occasionally lose the <em>track.</em>
+    </h1>
+
+    <p class="subtext">
+      The page you are looking for has wandered off into the bush. 
+      Let us help you find your way back to something extraordinary.
+    </p>
+
+    <div class="actions">
+      <a href="/" class="btn-primary">Return Home</a>
+      <a href="/#contact" class="btn-ghost">Begin the Conversation</a>
+    </div>
+
+    <div class="quick-links">
+      <p>Or explore</p>
+      <div class="quick-links-list">
+        <a href="/#safaris">Luxury Safaris</a>
+        <span class="sep">·</span>
+        <a href="/#destinations">Destinations</a>
+        <span class="sep">·</span>
+        <a href="/#about">Our Story</a>
+        <span class="sep">·</span>
+        <a href="/#contact">Enquiry</a>
+      </div>
+    </div>
+
+    <p class="contact-line">
+      Need help? Call us in Arusha &nbsp;·&nbsp;
+      <a href="tel:+255742789292">+255 742 789 292</a>
+      &nbsp;·&nbsp;
+      <a href="mailto:info@dumaprivatesafaris.com">info@dumaprivatesafaris.com</a>
+    </p>
+
   </div>
+</div>
+
 </body>
 </html>
