@@ -9,8 +9,6 @@
   :root {
     --navy: #1f7a85;
     --navy-light: #2a9aaa;
-    --sky: #d0eef1;
-    --sky-light: #e8f7f8;
     --white: #FFFFFF;
   }
 
@@ -32,7 +30,7 @@
   /* Header */
   .header {
     text-align: center;
-    margin-bottom: 22px;
+    margin-bottom: 26px;
     z-index: 10;
     position: relative;
   }
@@ -66,6 +64,13 @@
     color: var(--navy);
     font-weight: 600;
     opacity: 0.8;
+    margin-bottom: 6px;
+  }
+  .instruction {
+    font-size: 13.5px;
+    color: var(--navy);
+    opacity: 0.7;
+    font-weight: 600;
   }
 
   /* Main layout */
@@ -74,7 +79,6 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 28px;
     z-index: 10;
     position: relative;
     padding: 0 16px;
@@ -88,6 +92,7 @@
     align-items: center;
     justify-content: center;
     padding-top: 56px;
+    touch-action: manipulation;
   }
 
   .wheel-glow {
@@ -149,6 +154,7 @@
     justify-content: center;
     user-select: none;
     -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
   }
   .spin-btn:active {
     transform: scale(0.93);
@@ -158,54 +164,6 @@
     opacity: 0.7;
     cursor: not-allowed;
     transform: none;
-  }
-
-  /* Prizes panel — now stacked below the wheel so the wheel stays centered */
-  .side-panel {
-    background: var(--sky-light);
-    border-radius: 24px;
-    border: 2px solid var(--sky);
-    padding: 22px 20px;
-    max-width: 320px;
-    width: 100%;
-    box-shadow: 0 8px 24px rgba(26,58,107,0.08);
-    text-align: center;
-  }
-  .side-panel h2 {
-    font-family: 'Baloo 2', cursive;
-    font-size: 19px;
-    color: var(--navy);
-    margin-bottom: 8px;
-  }
-  .side-panel p {
-    font-size: 13px;
-    color: var(--navy);
-    opacity: 0.75;
-    line-height: 1.5;
-    margin-bottom: 16px;
-  }
-  .prizes-list {
-    list-style: none;
-    text-align: left;
-  }
-  .prizes-list li {
-    font-size: 12.5px;
-    color: var(--navy);
-    font-weight: 600;
-    padding: 6px 10px;
-    margin-bottom: 5px;
-    background: rgba(31,122,133,0.06);
-    border-radius: 8px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-  .prizes-list li .dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    border: 1.5px solid var(--navy);
-    flex-shrink: 0;
   }
 
   /* Modal overlay */
@@ -222,6 +180,7 @@
     opacity: 0;
     pointer-events: none;
     transition: opacity 0.4s ease;
+    padding: 20px;
   }
   .modal-overlay.active {
     opacity: 1;
@@ -230,9 +189,9 @@
   .modal-card {
     background: white;
     border-radius: 32px;
-    padding: 40px 36px;
+    padding: 40px 32px;
     max-width: 420px;
-    width: 90%;
+    width: 100%;
     text-align: center;
     transform: scale(0.8) translateY(30px);
     transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
@@ -291,6 +250,7 @@
     transition: transform 0.15s, box-shadow 0.15s;
     box-shadow: 0 4px 16px rgba(26,58,107,0.3);
     -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
   }
   .modal-btn:active { transform: scale(0.96); }
   .modal-confetti {
@@ -312,7 +272,7 @@
   }
 
   @media (max-height: 700px) {
-    .header { margin-bottom: 10px; }
+    .header { margin-bottom: 14px; }
     .logo-fallback { font-size: 24px; }
   }
 </style>
@@ -326,6 +286,7 @@
     <div class="logo-fallback">babysafe<span class="plus">+</span></div>
   </div>
   <div class="tagline">Gentle by Nature</div>
+  <div class="instruction">Tap SPIN and see what you win today!</div>
 </div>
 
 <div class="main">
@@ -334,12 +295,6 @@
     <div class="pointer"></div>
     <canvas id="wheelCanvas"></canvas>
     <button class="spin-btn" id="spinBtn" onclick="spinWheel()">SPIN!</button>
-  </div>
-
-  <div class="side-panel">
-    <h2>Prizes</h2>
-    <p>Tap SPIN and see what you win today!</p>
-    <ul class="prizes-list" id="prizesList"></ul>
   </div>
 </div>
 
@@ -387,6 +342,13 @@ const TEXT_COLORS = [
 const canvas = document.getElementById('wheelCanvas');
 const ctx = canvas.getContext('2d');
 
+const NUM = SEGMENTS.length;
+const ARC = (2 * Math.PI) / NUM;
+
+let SIZE, R, CENTER;
+let currentAngle = 0;
+let spinning = false;
+
 function getWheelSize() {
   const vw = window.innerWidth;
   const vh = window.innerHeight;
@@ -395,17 +357,20 @@ function getWheelSize() {
   return Math.min(maxFromH, maxFromW, 480);
 }
 
-let SIZE = getWheelSize();
-canvas.width = SIZE;
-canvas.height = SIZE;
-const R = SIZE / 2;
-const CENTER = R;
-
-const NUM = SEGMENTS.length;
-const ARC = (2 * Math.PI) / NUM;
-
-let currentAngle = 0;
-let spinning = false;
+// Sizes the canvas backing store for the device's pixel ratio so the wheel
+// stays crisp on retina screens (all modern iPads/iPhones), and keeps
+// R/CENTER in sync whenever the wheel is resized (e.g. iPad rotation).
+function setupCanvas() {
+  SIZE = getWheelSize();
+  R = SIZE / 2;
+  CENTER = R;
+  const dpr = Math.max(window.devicePixelRatio || 1, 1);
+  canvas.width = SIZE * dpr;
+  canvas.height = SIZE * dpr;
+  canvas.style.width = SIZE + 'px';
+  canvas.style.height = SIZE + 'px';
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+}
 
 function drawWheel(angle) {
   ctx.clearRect(0, 0, SIZE, SIZE);
@@ -469,14 +434,8 @@ function drawWheel(angle) {
   ctx.stroke();
 }
 
+setupCanvas();
 drawWheel(currentAngle);
-
-const list = document.getElementById('prizesList');
-SEGMENTS.forEach((s, i) => {
-  const li = document.createElement('li');
-  li.innerHTML = `<span class="dot" style="background:${COLORS[i]}"></span>${s.short}`;
-  list.appendChild(li);
-});
 
 let targetAngle = 0;
 
@@ -582,11 +541,16 @@ function launchConfetti() {
   }
 }
 
-window.addEventListener('resize', () => {
-  SIZE = getWheelSize();
-  canvas.width = SIZE;
-  canvas.height = SIZE;
+// Resize handling — covers window resize, and iPad/iPhone orientation
+// changes (Safari can report stale innerWidth/innerHeight right after
+// rotating, so this re-checks shortly after the event fires).
+function handleResize() {
+  setupCanvas();
   drawWheel(currentAngle);
+}
+window.addEventListener('resize', handleResize);
+window.addEventListener('orientationchange', () => {
+  setTimeout(handleResize, 300);
 });
 
 const logoImg = document.querySelector('.logo-img');
