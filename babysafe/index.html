@@ -3,18 +3,15 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>BabySafe+ Spin & Win!</title>
+<title>BabySafe+ Spin &amp; Win!</title>
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@600;700;800&display=swap" rel="stylesheet">
 <style>
   :root {
     --navy: #1f7a85;
     --navy-light: #2a9aaa;
-    --yellow: #e8c81f;
-    --yellow-dark: #c9ab10;
     --sky: #d0eef1;
     --sky-light: #e8f7f8;
     --white: #FFFFFF;
-    --green: #4a9e7a;
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -22,59 +19,45 @@
 
   body {
     font-family: 'Nunito', sans-serif;
-    background: linear-gradient(160deg, #c8e9ec 0%, #a8d8dc 40%, #bde4e7 100%);
-    height: 100vh;
-    overflow: hidden;
+    background: #ffffff;
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
+    padding: 28px 16px 48px;
     position: relative;
-  }
-
-  /* Bubbles */
-  .bubble {
-    position: fixed;
-    border-radius: 50%;
-    background: radial-gradient(circle at 35% 35%, rgba(255,255,255,0.7), rgba(255,255,255,0.1));
-    border: 1.5px solid rgba(255,255,255,0.5);
-    pointer-events: none;
-    animation: floatBubble linear infinite;
-  }
-  @keyframes floatBubble {
-    0% { transform: translateY(110vh) scale(0.8); opacity: 0; }
-    10% { opacity: 1; }
-    90% { opacity: 0.6; }
-    100% { transform: translateY(-15vh) scale(1); opacity: 0; }
   }
 
   /* Header */
   .header {
     text-align: center;
-    margin-bottom: 20px;
+    margin-bottom: 22px;
     z-index: 10;
     position: relative;
   }
-  .logo-area {
+  .logo-wrap {
     display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-content: center;
-    gap: 10px;
-    margin-bottom: 4px;
+    gap: 4px;
+    margin-bottom: 6px;
   }
-  .logo-leaf {
-    font-size: 28px;
+  .logo-img {
+    max-width: 200px;
+    max-height: 110px;
+    display: none; /* shown automatically once a real src is set below */
   }
-  .logo-text {
+  .logo-fallback {
     font-family: 'Baloo 2', cursive;
-    font-size: 28px;
+    font-size: 30px;
     font-weight: 800;
     color: var(--navy);
     letter-spacing: -0.5px;
   }
-  .logo-plus {
-    font-size: 14px;
-    color: var(--green);
+  .logo-fallback .plus {
+    color: var(--navy-light);
+    font-size: 16px;
     vertical-align: super;
     font-weight: 700;
   }
@@ -82,19 +65,20 @@
     font-size: 15px;
     color: var(--navy);
     font-weight: 600;
-    opacity: 0.75;
+    opacity: 0.8;
   }
 
   /* Main layout */
   .main {
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 32px;
+    gap: 28px;
     z-index: 10;
     position: relative;
-    flex-wrap: wrap;
     padding: 0 16px;
+    width: 100%;
   }
 
   /* Wheel container */
@@ -112,7 +96,7 @@
     width: 110%;
     height: 110%;
     border-radius: 50%;
-    background: radial-gradient(circle, rgba(249,194,0,0.25) 0%, transparent 70%);
+    background: radial-gradient(circle, rgba(31,122,133,0.18) 0%, transparent 70%);
     animation: pulse 2.5s ease-in-out infinite;
   }
   @keyframes pulse {
@@ -122,7 +106,7 @@
 
   #wheelCanvas {
     display: block;
-    filter: drop-shadow(0 8px 32px rgba(26,58,107,0.25));
+    filter: drop-shadow(0 8px 32px rgba(26,58,107,0.2));
     border-radius: 50%;
   }
 
@@ -141,66 +125,62 @@
     z-index: 20;
   }
 
-
   /* Center button */
   .spin-btn {
     position: absolute;
     width: 80px;
     height: 80px;
     border-radius: 50%;
-    background: linear-gradient(145deg, var(--yellow), var(--yellow-dark));
+    background: var(--white);
     border: 4px solid var(--navy);
     color: var(--navy);
     font-family: 'Baloo 2', cursive;
-    font-size: 13px;
+    font-size: 14px;
     font-weight: 800;
     cursor: pointer;
     z-index: 20;
-    box-shadow: 0 4px 16px rgba(249,194,0,0.5), 0 2px 4px rgba(0,0,0,0.2);
+    box-shadow: 0 4px 16px rgba(31,122,133,0.35), 0 2px 4px rgba(0,0,0,0.15);
     transition: transform 0.15s ease, box-shadow 0.15s ease;
-    letter-spacing: 0.3px;
+    letter-spacing: 0.5px;
     line-height: 1.1;
     text-align: center;
     display: flex;
     align-items: center;
     justify-content: center;
-    flex-direction: column;
     user-select: none;
     -webkit-tap-highlight-color: transparent;
   }
   .spin-btn:active {
     transform: scale(0.93);
-    box-shadow: 0 2px 8px rgba(249,194,0,0.4);
+    box-shadow: 0 2px 8px rgba(31,122,133,0.3);
   }
   .spin-btn:disabled {
     opacity: 0.7;
     cursor: not-allowed;
     transform: none;
   }
-  .spin-btn .spin-icon { font-size: 18px; }
 
-  /* Side panel */
+  /* Prizes panel — now stacked below the wheel so the wheel stays centered */
   .side-panel {
-    background: rgba(255,255,255,0.65);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
+    background: var(--sky-light);
     border-radius: 24px;
-    border: 2px solid rgba(255,255,255,0.8);
-    padding: 24px 20px;
-    max-width: 240px;
-    box-shadow: 0 8px 32px rgba(26,58,107,0.12);
+    border: 2px solid var(--sky);
+    padding: 22px 20px;
+    max-width: 320px;
+    width: 100%;
+    box-shadow: 0 8px 24px rgba(26,58,107,0.08);
     text-align: center;
   }
   .side-panel h2 {
     font-family: 'Baloo 2', cursive;
-    font-size: 20px;
+    font-size: 19px;
     color: var(--navy);
     margin-bottom: 8px;
   }
   .side-panel p {
     font-size: 13px;
     color: var(--navy);
-    opacity: 0.7;
+    opacity: 0.75;
     line-height: 1.5;
     margin-bottom: 16px;
   }
@@ -209,21 +189,22 @@
     text-align: left;
   }
   .prizes-list li {
-    font-size: 12px;
+    font-size: 12.5px;
     color: var(--navy);
     font-weight: 600;
-    padding: 5px 8px;
-    margin-bottom: 4px;
-    background: rgba(26,58,107,0.06);
+    padding: 6px 10px;
+    margin-bottom: 5px;
+    background: rgba(31,122,133,0.06);
     border-radius: 8px;
     display: flex;
     align-items: center;
-    gap: 7px;
+    gap: 8px;
   }
   .prizes-list li .dot {
     width: 8px;
     height: 8px;
     border-radius: 50%;
+    border: 1.5px solid var(--navy);
     flex-shrink: 0;
   }
 
@@ -267,17 +248,7 @@
     position: absolute;
     top: 0; left: 0; right: 0;
     height: 8px;
-    background: linear-gradient(90deg, var(--navy), var(--yellow), var(--navy));
-  }
-  .modal-emoji {
-    font-size: 64px;
-    margin-bottom: 12px;
-    display: block;
-    animation: bounceIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 0.2s both;
-  }
-  @keyframes bounceIn {
-    from { transform: scale(0) rotate(-15deg); opacity: 0; }
-    to { transform: scale(1) rotate(0deg); opacity: 1; }
+    background: linear-gradient(90deg, var(--navy), var(--navy-light), var(--navy));
   }
   .modal-title {
     font-family: 'Baloo 2', cursive;
@@ -287,13 +258,14 @@
     text-transform: uppercase;
     letter-spacing: 2px;
     margin-bottom: 8px;
+    margin-top: 10px;
   }
   .modal-prize {
     font-family: 'Baloo 2', cursive;
-    font-size: 30px;
+    font-size: 28px;
     font-weight: 800;
     color: var(--navy);
-    line-height: 1.2;
+    line-height: 1.25;
     margin-bottom: 20px;
   }
   .modal-prize.consolation {
@@ -339,58 +311,35 @@
     100% { transform: translateY(500px) rotate(720deg); opacity: 0; }
   }
 
-  /* Responsive for iPad */
-  @media (max-width: 900px) {
-    .side-panel { display: none; }
-    .main { gap: 0; }
-  }
   @media (max-height: 700px) {
-    .header { margin-bottom: 6px; }
-    .logo-text { font-size: 22px; }
+    .header { margin-bottom: 10px; }
+    .logo-fallback { font-size: 24px; }
   }
 </style>
 </head>
 <body>
 
-<!-- Floating bubbles -->
-<script>
-  (function() {
-    const sizes = [40, 60, 80, 50, 35, 70, 45, 55, 90, 30];
-    const delays = [0, 2, 4, 6, 1, 3, 5, 7, 9, 8];
-    const durations = [12, 15, 18, 14, 20, 16, 13, 17, 11, 19];
-    const lefts = [5, 15, 25, 35, 45, 55, 65, 75, 85, 92];
-    sizes.forEach((size, i) => {
-      const b = document.createElement('div');
-      b.className = 'bubble';
-      b.style.cssText = `width:${size}px;height:${size}px;left:${lefts[i]}%;animation-duration:${durations[i]}s;animation-delay:${delays[i]}s;`;
-      document.body.appendChild(b);
-    });
-  })();
-</script>
-
 <div class="header">
-  <div class="logo-area">
-    <span class="logo-leaf">🌿</span>
-    <span class="logo-text">babysafe<span class="logo-plus">+</span></span>
+  <div class="logo-wrap">
+    <!-- Replace the src below with the real BabySafe+ logo file -->
+    <img class="logo-img" src="" alt="BabySafe+">
+    <div class="logo-fallback">babysafe<span class="plus">+</span></div>
   </div>
-  <div class="tagline">Gentle by Nature, Non-Toxic by Choice 🍃</div>
+  <div class="tagline">Gentle by Nature</div>
 </div>
 
 <div class="main">
-  <div class="side-panel">
-    <h2>🎁 Prizes</h2>
-    <p>Tap SPIN and see what you win today!</p>
-    <ul class="prizes-list" id="prizesList"></ul>
-  </div>
-
   <div class="wheel-wrapper">
     <div class="wheel-glow"></div>
     <div class="pointer"></div>
     <canvas id="wheelCanvas"></canvas>
-    <button class="spin-btn" id="spinBtn" onclick="spinWheel()">
-      <span class="spin-icon">✨</span>
-      SPIN!
-    </button>
+    <button class="spin-btn" id="spinBtn" onclick="spinWheel()">SPIN!</button>
+  </div>
+
+  <div class="side-panel">
+    <h2>Prizes</h2>
+    <p>Tap SPIN and see what you win today!</p>
+    <ul class="prizes-list" id="prizesList"></ul>
   </div>
 </div>
 
@@ -398,35 +347,34 @@
 <div class="modal-overlay" id="modalOverlay">
   <div class="modal-card">
     <div class="modal-confetti" id="confettiContainer"></div>
-    <span class="modal-emoji" id="modalEmoji">🎉</span>
     <div class="modal-title" id="modalTitle">You Won!</div>
     <div class="modal-prize" id="modalPrize">10% Off!</div>
-    <div class="modal-sub" id="modalSub">Show this screen to our team to claim your prize 🎀</div>
+    <div class="modal-sub" id="modalSub">Show this screen to our team to claim your prize</div>
     <button class="modal-btn" onclick="closeModal()">Spin Again!</button>
   </div>
 </div>
 
 <script>
 const SEGMENTS = [
-  { label: "5% Off\nLotion",            short: "5% Off Lotion",                        emoji: "🧴", type: "win" },
-  { label: "5% Off\nSoap",              short: "5% Off Soap",                           emoji: "🫧", type: "win" },
-  { label: "10% Off\nLotion",           short: "10% Off Lotion",                        emoji: "🧴", type: "win" },
-  { label: "10% Off\nSoap",             short: "10% Off Soap",                          emoji: "🧼", type: "win" },
-  { label: "10% Off\nAny Product",      short: "10% Off Any Product",                   emoji: "🎉", type: "win" },
-  { label: "Buy Lotion\nGet 10% Off\nSoap",   short: "Buy Lotion, Get 10% Off Soap",   emoji: "🎁", type: "win" },
-  { label: "Buy Soap\nGet 10% Off\nLotion",   short: "Buy Soap, Get 10% Off Lotion",   emoji: "🎁", type: "win" },
-  { label: "Bundle Deal!\nLotion + Soap\nTZS 20,000/-", short: "Bundle Deal: Lotion + Soap for TZS 20,000/- only", emoji: "🛍️", type: "win" },
-  { label: "Spin\nAgain!",              short: "Spin Again!",                            emoji: "🔄", type: "again" },
-  { label: "Better Luck\nNext Time!",   short: "Better Luck Next Time!",                emoji: "😊", type: "loss" },
+  { label: "BUNDLE\nDEAL!\n1,000/-",       short: "Bundle deal! Full size set for 1,000 only!", type: "win" },
+  { label: "SPIN\nAGAIN!",                 short: "Spin again!",                                 type: "again" },
+  { label: "BETTER\nLUCK\nNEXT TIME",      short: "Better luck next time",                       type: "loss" },
+  { label: "FREE\nMINI\nGIFT",             short: "Free mini gift",                              type: "win" },
+  { label: "KSH 100\nOFF",                 short: "KSH 100 off",                                 type: "win" },
+  { label: "KSH 50\nOFF",                  short: "KSH 50 off",                                  type: "win" },
+  { label: "KSH 100\nOFF NEXT\nPURCHASE",  short: "KSH 100 off your next purchase",              type: "win" },
+  { label: "KSH 50\nOFF NEXT\nPURCHASE",   short: "KSH 50 off your next purchase",               type: "win" },
+  { label: "BUY 2\nGET KSH 100\nOFF",      short: "Buy two, get KSH 100 off",                    type: "win" },
+  { label: "BUY 2\nGET KSH 50\nOFF",       short: "Buy two, get KSH 50 off",                     type: "win" },
 ];
 
-// Color palette alternating
+// Just blue (navy) and white, alternating
 const COLORS = [
-  "#1f7a85", "#e8c81f",
-  "#2a9aaa", "#e8c81f",
-  "#1f7a85", "#e8c81f",
-  "#2a9aaa", "#e8c81f",
-  "#4a9e7a", "#d0eef1",
+  "#1f7a85", "#FFFFFF",
+  "#1f7a85", "#FFFFFF",
+  "#1f7a85", "#FFFFFF",
+  "#1f7a85", "#FFFFFF",
+  "#1f7a85", "#FFFFFF",
 ];
 const TEXT_COLORS = [
   "#FFFFFF", "#1f7a85",
@@ -439,13 +387,12 @@ const TEXT_COLORS = [
 const canvas = document.getElementById('wheelCanvas');
 const ctx = canvas.getContext('2d');
 
-// iPad sizing: make wheel fit nicely
 function getWheelSize() {
   const vw = window.innerWidth;
   const vh = window.innerHeight;
-  const maxFromH = vh * 0.72;
+  const maxFromH = vh * 0.62;
   const maxFromW = vw * 0.82;
-  return Math.min(maxFromH, maxFromW, 520);
+  return Math.min(maxFromH, maxFromW, 480);
 }
 
 let SIZE = getWheelSize();
@@ -463,7 +410,6 @@ let spinning = false;
 function drawWheel(angle) {
   ctx.clearRect(0, 0, SIZE, SIZE);
 
-  // Outer ring shadow
   ctx.save();
   ctx.shadowColor = 'rgba(26,58,107,0.3)';
   ctx.shadowBlur = 24;
@@ -473,13 +419,11 @@ function drawWheel(angle) {
   ctx.fill();
   ctx.restore();
 
-  // Segments
   for (let i = 0; i < NUM; i++) {
     const startAngle = angle + i * ARC;
     const endAngle = startAngle + ARC;
     const mid = startAngle + ARC / 2;
 
-    // Segment fill
     ctx.beginPath();
     ctx.moveTo(CENTER, CENTER);
     ctx.arc(CENTER, CENTER, R - 6, startAngle, endAngle);
@@ -487,12 +431,10 @@ function drawWheel(angle) {
     ctx.fillStyle = COLORS[i];
     ctx.fill();
 
-    // Subtle border
-    ctx.strokeStyle = 'rgba(255,255,255,0.4)';
-    ctx.lineWidth = 2;
+    ctx.strokeStyle = '#1f7a85';
+    ctx.lineWidth = 1.5;
     ctx.stroke();
 
-    // Text
     ctx.save();
     ctx.translate(CENTER, CENTER);
     ctx.rotate(mid);
@@ -512,14 +454,12 @@ function drawWheel(angle) {
     ctx.restore();
   }
 
-  // Outer border ring
   ctx.beginPath();
   ctx.arc(CENTER, CENTER, R - 5, 0, 2 * Math.PI);
   ctx.strokeStyle = '#1f7a85';
   ctx.lineWidth = 5;
   ctx.stroke();
 
-  // Inner circle for button area
   ctx.beginPath();
   ctx.arc(CENTER, CENTER, 46, 0, 2 * Math.PI);
   ctx.fillStyle = '#fff';
@@ -531,7 +471,6 @@ function drawWheel(angle) {
 
 drawWheel(currentAngle);
 
-// Build prizes list
 const list = document.getElementById('prizesList');
 SEGMENTS.forEach((s, i) => {
   const li = document.createElement('li');
@@ -539,7 +478,6 @@ SEGMENTS.forEach((s, i) => {
   list.appendChild(li);
 });
 
-// Spin logic
 let targetAngle = 0;
 
 function spinWheel() {
@@ -547,23 +485,11 @@ function spinWheel() {
   spinning = true;
   document.getElementById('spinBtn').disabled = true;
 
-  // Pick a random winning segment (weighted — reduce "loss" chance)
-  // Pointer is at top (angle = -PI/2), segments are drawn clockwise
-  // We want to land segment index `winner` under the pointer
   const winner = Math.floor(Math.random() * NUM);
 
-  // Full rotations + land on winner
   const extraSpins = (5 + Math.floor(Math.random() * 4)) * 2 * Math.PI;
-  // Segment center for winner: the pointer is at -PI/2
-  // The winner's center should be at the top = -PI/2
-  // Currently currentAngle places segment i at: currentAngle + i*ARC + ARC/2
-  // We want: targetAngle + winner*ARC + ARC/2 = -PI/2 + 2PI*k
-  // targetAngle = -PI/2 - winner*ARC - ARC/2 + 2PI*k
-
   const rawTarget = -Math.PI / 2 - winner * ARC - ARC / 2;
-  // normalize so it's always a large positive spin from current
   let normalizedTarget = rawTarget;
-  // Ensure we always spin forward (increase angle)
   while (normalizedTarget <= currentAngle + extraSpins - 2 * Math.PI) {
     normalizedTarget += 2 * Math.PI;
   }
@@ -599,28 +525,26 @@ function spinWheel() {
 function showResult(index) {
   const seg = SEGMENTS[index];
   const overlay = document.getElementById('modalOverlay');
-  const emojiEl = document.getElementById('modalEmoji');
   const titleEl = document.getElementById('modalTitle');
   const prizeEl = document.getElementById('modalPrize');
   const subEl = document.getElementById('modalSub');
 
-  emojiEl.textContent = seg.emoji;
   prizeEl.className = 'modal-prize';
 
   if (seg.type === 'win') {
-    titleEl.textContent = "🎉 You Won!";
+    titleEl.textContent = "You Won!";
     prizeEl.textContent = seg.short;
-    subEl.textContent = "Show this screen to our team to claim your prize! 🎀";
+    subEl.textContent = "Show this screen to our team to claim your prize";
     launchConfetti();
   } else if (seg.type === 'again') {
     titleEl.textContent = "Lucky You!";
     prizeEl.textContent = "Spin Again!";
-    subEl.textContent = "You get another chance — go for it! 🌀";
+    subEl.textContent = "You get another chance — go for it!";
   } else {
-    titleEl.textContent = "Oh no!";
+    titleEl.textContent = "So Close!";
     prizeEl.textContent = seg.short;
     prizeEl.className = 'modal-prize consolation';
-    subEl.textContent = "Don't worry — try again and win something amazing! 🌟";
+    subEl.textContent = "Don't worry — try again and win something amazing!";
   }
 
   overlay.classList.add('active');
@@ -635,7 +559,7 @@ function closeModal() {
 function launchConfetti() {
   const container = document.getElementById('confettiContainer');
   container.innerHTML = '';
-  const colors = ['#e8c81f', '#1f7a85', '#d0eef1', '#4a9e7a', '#ffffff', '#ff6b9d'];
+  const colors = ['#1f7a85', '#2a9aaa', '#d0eef1', '#ffffff', '#0f3d43'];
   for (let i = 0; i < 40; i++) {
     const piece = document.createElement('div');
     piece.className = 'confetti-piece';
@@ -650,6 +574,7 @@ function launchConfetti() {
       width:${size}px;
       height:${size}px;
       border-radius:${isCircle ? '50%' : '2px'};
+      border:${color === '#ffffff' ? '1px solid #1f7a85' : 'none'};
       animation-delay:${delay}s;
       animation-duration:${1.2 + Math.random() * 0.8}s;
     `;
@@ -657,13 +582,20 @@ function launchConfetti() {
   }
 }
 
-// Resize
 window.addEventListener('resize', () => {
   SIZE = getWheelSize();
   canvas.width = SIZE;
   canvas.height = SIZE;
   drawWheel(currentAngle);
 });
+
+const logoImg = document.querySelector('.logo-img');
+const logoFallback = document.querySelector('.logo-fallback');
+if (logoImg.getAttribute('src')) {
+  logoImg.style.display = 'block';
+  logoImg.onload = () => { logoFallback.style.display = 'none'; };
+  logoImg.onerror = () => { logoImg.style.display = 'none'; };
+}
 </script>
 </body>
 </html>
